@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using S=System.Data.SqlClient;
+using S = System.Data.SqlClient;
 
 namespace WebApplication1
 {
@@ -21,9 +22,22 @@ namespace WebApplication1
                 connection.Open();
                 Label1.Text = "Connected successfully.";
 
-//                Console.WriteLine("Press any key to finish...");
-  //              Console.ReadKey(true);
-            }  
+                using (var command = new S.SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.Text;
+
+                    command.CommandText = @"SELECT * from TrackEmployee";
+
+                    S.SqlDataReader reader = command.ExecuteReader();
+
+                    DataTable dt = new DataTable();
+                    dt.Load(reader);
+
+                    Repeater1.DataSource = dt;
+                    Repeater1.DataBind();
+                }
+            }
         }
     }
 }
