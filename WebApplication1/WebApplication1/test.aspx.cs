@@ -24,7 +24,7 @@ namespace WebApplication1
                    ))
             {
                 connection.Open();
-                Label1.Text = "Connected successfully.";
+                //Label1.Text = "Connected successfully.";
 
                 using (var command = new S.SqlCommand())
                 {
